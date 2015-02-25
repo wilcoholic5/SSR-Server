@@ -1,5 +1,7 @@
 {
   "require": {
-    "react/react": "0.5.*@dev"
+    "react/react": "0.5.*@dev",
+    "cboden/ratchet": "dev-master",
+    "everyman/neo4jphp": "dev-master"
   }
 }
