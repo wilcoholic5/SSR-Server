@@ -17,7 +17,7 @@ class Neo
     {
         $this->neo4j = $neo;
         $this->visitLabel = $this->neo4j->makeLabel('VISIT');
-        $this->add('{"table":4,"orders":{"foods":{"0":"Triple Cheeseburger","1":"Fried Chicken", "2":"Pizza", "3":"Spaghetti"},"drinks":{"0":"Sprite", "1":"Coffee", "2":"Beer"}},"bill":25}');
+//        $this->add('{"table":2,"orders":{"foods":[{"name":"Pepperoni Pizza","price":10}],"drinks":[]},"bill":10}');
     }
 
     /**
@@ -27,7 +27,6 @@ class Neo
     public function add($json)
     {
         $arr = json_decode($json, true);
-        print_r($arr);
         $visit = $this->neo4j->makeNode();
 
         $visit->setProperty('bill', $arr['bill'])
@@ -42,17 +41,22 @@ class Neo
      * @param Node $visit
      * @param array $items
      */
-    public function addRelationship($visit, array $items)
+    public function addRelationship($visit, array $orders)
     {
-        foreach ($items as $item) {
-            foreach ($item as $key => $value) {
-                $order = $this->neo4j->makeNode()
-                ->setProperty($key, $value)
+        print_r($orders);
+        foreach ($orders as $order) {
+            foreach ($order as $key => $value) {
+//                print_r($value['name']);
+//                print 'key is ' . $key;
+                $order = $this->neo4j->makeNode();
+
+                $order->setProperty('name', $value['name'])
+                ->setProperty('price', $value['price'])
                 ->save();
 
-                $visit->relateTo($order, 'ORDERED')
-                    ->save();
+                $visit->relateTo($order, 'ORDERED')->save();
             }
         }
+        echo 'data added';
     }
 }

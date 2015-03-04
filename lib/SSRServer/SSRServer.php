@@ -21,6 +21,7 @@ class SSRServer implements MessageComponentInterface
      */
     function onOpen(ConnectionInterface $conn)
     {
+        echo 'connected';
         $conn->send("connected");
     }
 
@@ -54,6 +55,8 @@ class SSRServer implements MessageComponentInterface
      */
     function onMessage(ConnectionInterface $from, $msg)
     {
-        $from->send("got data");
+        echo 'got a message';
+        var_dump($msg);
+        $this->neo->add($msg);
     }
 }
