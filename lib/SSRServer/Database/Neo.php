@@ -49,7 +49,6 @@ class Neo
 //                print_r($value['name']);
 //                print 'key is ' . $key;
                 $order = $this->neo4j->makeNode();
-
                 $order->setProperty('name', $value['name'])
                 ->setProperty('price', $value['price'])
                 ->save();
